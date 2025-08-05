@@ -15,6 +15,8 @@ Aqui será possível encontrar:
 - Exercícios práticos para aplicar os conceitos aprendidos.
 - Recursos adicionais e links úteis para aprofundamento.
 
+As atividades estão disponíveis na pasta `src` e são organizadas por exercício. Cada exercício contém um arquivo Python com a implementação do algoritmo correspondente.
+
 ## 🛠️ Tecnologias Utilizadas
 - Python 3.x
 - Bibliotecas gráficas como Pygame ou OpenGL (dependendo do exercício)
