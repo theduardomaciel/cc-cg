@@ -5,3 +5,6 @@ Este exercício implementa o algoritmo de Bresenham para traçar linhas vetoriai
 
 > [!NOTE]
 > A parte manuscrita da atividade [está disponível aqui](https://drive.google.com/file/d/1QeYxhLlDFvzG8X-So6OUxdDqNpHj3Ohu/view?usp=drive_link).
+
+## [Atividade 2: Flor de Abril em OpenGL](activity2.c)
+Este exercício desenha uma "flor de abril" utilizando OpenGL. A flor é composta por um caule e quatro pétalas coloridas, cada uma desenhada como um triângulo.
