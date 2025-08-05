@@ -14,13 +14,13 @@ void flowerFunc(void)
 {
     glClear(GL_COLOR_BUFFER_BIT); // limpamos o buffer de cor
 
-    // Desenha o caule
+    // Desenha o caule como um retângulo simples
     glColor3f(1.0, 1.0, 1.0);
-    glBegin(GL_POLYGON);
+    glBegin(GL_QUADS);
     glVertex2i(248, 250);
     glVertex2i(251, 250);
-    glVertex2i(248, 100);
     glVertex2i(251, 100);
+    glVertex2i(248, 100);
     glEnd();
 
     // Desenha a dita cuja "flor de abril" com 4 pétalas (triângulos) nas direções principais
