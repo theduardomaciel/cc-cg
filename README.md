@@ -6,7 +6,7 @@
 
 <br />
 
-## 📚 Matéria
+## 📚 Sobre a Matéria
 
 Este repositório contém o material da disciplina de Computação Gráfica (CC-CG) do curso de Ciência da Computação da UFAL.
 
