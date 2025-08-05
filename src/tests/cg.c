@@ -25,7 +25,7 @@ int main(int argc, char **argv)
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutInitWindowSize(500, 500);
     glutCreateWindow("Hello World");
-    init();                     // define parametros de rendering
+    init();                     // define parâmetros de rendering
     glutDisplayFunc(lineSegmt); // desenha o objeto
     glutMainLoop();             // controle de callback
 }

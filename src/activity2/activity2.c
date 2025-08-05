@@ -33,26 +33,39 @@ void flowerFunc(void)
         {1.0, 1.0, 0.0}  // amarelo (direita)
     };
 
-    // os ângulos são: cima (90), direita (0), baixo (270), esquerda (180)
-    float angles[4] = {90.0, 0.0, 270.0, 180.0};
+    // Desenhamos as pétalas
 
-    for (int i = 0; i < 4; i++)
-    {
-        float angle = angles[i] * M_PI / 180.0f; // converte para radianos
+    // Cima
+    glColor3f(colors[0][0], colors[0][1], colors[0][2]);
+    glBegin(GL_TRIANGLES);
+    glVertex2i(cx, cy);               // centro
+    glVertex2i(cx - 20, cy + radius); // esquerda da pétala superior
+    glVertex2i(cx + 20, cy + radius); // direita da pétala superior
+    glEnd();
 
-        // Calculamos os ângulos para as pétalas
-        // Cada pétala é desenhada com um ângulo de 30 graus para cada lado
-        float left = (angles[i] - 30.0f) * M_PI / 180.0f;
-        float right = (angles[i] + 30.0f) * M_PI / 180.0f;
+    // Baixo
+    glColor3f(colors[1][0], colors[1][1], colors[1][2]);
+    glBegin(GL_TRIANGLES);
+    glVertex2i(cx, cy);
+    glVertex2i(cx - 20, cy - radius);
+    glVertex2i(cx + 20, cy - radius);
+    glEnd();
 
-        // Desenha uma das pétalas (triângulo) com a cor, posição e ângulos calculados
-        glColor3f(colors[i][0], colors[i][1], colors[i][2]);
-        glBegin(GL_TRIANGLES);
-        glVertex2i(cx, cy);                                                           // centro da flor
-        glVertex2i(cx + (int)(radius * cos(left)), cy + (int)(radius * sin(left)));   // ponto esquerdo da pétala
-        glVertex2i(cx + (int)(radius * cos(right)), cy + (int)(radius * sin(right))); // ponto direito da pétala
-        glEnd();
-    }
+    // Esquerda
+    glColor3f(colors[2][0], colors[2][1], colors[2][2]);
+    glBegin(GL_TRIANGLES);
+    glVertex2i(cx, cy);
+    glVertex2i(cx - radius, cy - 20);
+    glVertex2i(cx - radius, cy + 20);
+    glEnd();
+
+    // Direita
+    glColor3f(colors[3][0], colors[3][1], colors[3][2]);
+    glBegin(GL_TRIANGLES);
+    glVertex2i(cx, cy);
+    glVertex2i(cx + radius, cy - 20);
+    glVertex2i(cx + radius, cy + 20);
+    glEnd();
 
     glFlush();
 }
