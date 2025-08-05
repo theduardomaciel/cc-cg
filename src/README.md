@@ -4,4 +4,4 @@
 Este exercício implementa o algoritmo de Bresenham para traçar linhas vetoriais em um plano matricial. O algoritmo é eficiente e amplamente utilizado em computação gráfica para desenhar linhas entre dois pontos.
 
 > [!NOTE]
-> A parte manuscrita da atividade [está disponível aqui](https://drive.google.com/drive/folders/1zTIYnjS6hG-TmSOOeF1g1RfJfFytgqmJ?usp=sharing).
+> A parte manuscrita da atividade [está disponível aqui](https://drive.google.com/file/d/1QeYxhLlDFvzG8X-So6OUxdDqNpHj3Ohu/view?usp=drive_link).
