@@ -1,5 +1,15 @@
 {
     "cSpell.words": [
         "bresenham"
-    ]
+    ],
+    "C_Cpp.default.compilerPath": "C:/MinGW/bin/g++.exe",
+    "files.associations": {
+        ".env.*": "dotenv",
+        "*.css": "css",
+        ".env.example": "properties",
+        "glu.h": "c",
+        "glut.h": "c",
+        "freeglut_std.h": "c",
+        "math.h": "c"
+    }
 }
