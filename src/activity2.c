@@ -1,6 +1,7 @@
 #include <GL/glut.h>
 #include <GL/glu.h>
 
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 void initFlower(void)
@@ -37,16 +38,19 @@ void flowerFunc(void)
 
     for (int i = 0; i < 4; i++)
     {
-        float angle = angles[i] * 3.1415926f / 180.0f;
-        float left = (angles[i] - 30.0f) * 3.1415926f / 180.0f;
-        float right = (angles[i] + 30.0f) * 3.1415926f / 180.0f;
+        float angle = angles[i] * M_PI / 180.0f; // converte para radianos
+
+        // Calculamos os ângulos para as pétalas
+        // Cada pétala é desenhada com um ângulo de 30 graus para cada lado
+        float left = (angles[i] - 30.0f) * M_PI / 180.0f;
+        float right = (angles[i] + 30.0f) * M_PI / 180.0f;
 
         // Desenha uma das pétalas (triângulo) com a cor, posição e ângulos calculados
         glColor3f(colors[i][0], colors[i][1], colors[i][2]);
         glBegin(GL_TRIANGLES);
-        glVertex2i(cx, cy);
-        glVertex2i(cx + (int)(radius * cos(left)), cy + (int)(radius * sin(left)));
-        glVertex2i(cx + (int)(radius * cos(right)), cy + (int)(radius * sin(right)));
+        glVertex2i(cx, cy);                                                           // centro da flor
+        glVertex2i(cx + (int)(radius * cos(left)), cy + (int)(radius * sin(left)));   // ponto esquerdo da pétala
+        glVertex2i(cx + (int)(radius * cos(right)), cy + (int)(radius * sin(right))); // ponto direito da pétala
         glEnd();
     }
 
