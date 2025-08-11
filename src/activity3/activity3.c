@@ -4,8 +4,13 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-char rotationKey = 'r';   // Tecla para rotacionar a flor
-float flowerAngle = 0.0f; // Ângulo de rotação da flor
+char rotationKey = 'r';     // Tecla para rotacionar a flor
+char antiRotationKey = 'e'; // Tecla para anti-rotacionar
+
+float flowerAngle = 0.0f;  // Ângulo de rotação da flor
+float flowerVel = 0.0f;    // Velocidade angular
+float flowerAcc = 0.0f;    // Aceleração angular
+float flowerVelMax = 5.0f; // Velocidade máxima
 
 void initFlower(void)
 {
@@ -89,17 +94,57 @@ void keyboardFunc(unsigned char key, int x, int y)
     // Escolhemos uma tecla para rotacionar (considerando as variantes minúscula e maiúscula)
     if (key == rotationKey || key == rotationKey - 32)
     {
-        // Rotacionamos 15 graus para direita (sentido anti-horário pela regra da mão direita)
-        flowerAngle -= 15.0f;
-
-        // Caso o ângulo ultrapasse 360 graus, ajustamos para ficar dentro do intervalo [0, 360)
-        if (flowerAngle >= 360.0f)
-        {
-            flowerAngle -= 360.0f;
-        }
-
-        glutPostRedisplay(); // Solicitamos que o GLUT redesenhe a janela
+        // Ao pressionar a tecla, aplica aceleração para iniciar rotação
+        flowerAcc = -0.05f; // valor negativo para sentido anti-horário
     }
+    // Para parar suavemente ao soltar a tecla
+    if (key == 's' || key == 'S')
+    {
+        flowerAcc = 0.05f; // valor positivo para desacelerar
+    }
+}
+
+// Timer para atualizar animação
+void timerFunc(int value)
+{
+    // Atualizamos a velocidade com base na aceleração
+    flowerVel += flowerAcc;
+
+    // Limitamos a velocidade máxima (pra não explodir a flor)
+    if (flowerVel > flowerVelMax)
+        flowerVel = flowerVelMax;
+    if (flowerVel < -flowerVelMax)
+        flowerVel = -flowerVelMax;
+
+    // Aplica "atrito" para desacelerar suavemente
+    if (flowerAcc == 0.0f)
+    {
+        flowerVel *= 0.98f; // fator de amortecimento
+
+        // Se a velocidade for muito baixa, paramos a flor
+        if (fabs(flowerVel) < 0.01f)
+        {
+            flowerVel = 0.0f;
+        }
+    }
+
+    // Atualizamos o ângulo da flor com base na velocidade
+    flowerAngle += flowerVel;
+
+    // Garantimos que o ângulo esteja sempre no intervalo [0, 360)
+    if (flowerAngle >= 360.0f)
+    {
+        flowerAngle -= 360.0f;
+    }
+
+    // Garantimos que o ângulo esteja sempre positivo
+    if (flowerAngle < 0.0f)
+    {
+        flowerAngle += 360.0f;
+    }
+
+    glutPostRedisplay();
+    glutTimerFunc(16, timerFunc, 0); // chama novamente em ~16ms (60fps)
 }
 
 int main(int argc, char **argv)
@@ -114,7 +159,7 @@ int main(int argc, char **argv)
     initFlower();
 
     glutDisplayFunc(flowerFunc);
-    glutKeyboardFunc(keyboardFunc); // Adiciona o callback do teclado
-
+    glutKeyboardFunc(keyboardFunc);  // Adiciona o callback do teclado
+    glutTimerFunc(16, timerFunc, 0); // inicia timer para animação suave
     glutMainLoop();
 }
