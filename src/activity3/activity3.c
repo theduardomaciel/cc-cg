@@ -3,6 +3,7 @@
 
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <stdbool.h>
 
 char rotationKey = 'r';     // Tecla para rotacionar a flor
 char antiRotationKey = 'e'; // Tecla para anti-rotacionar
@@ -11,6 +12,8 @@ float flowerAngle = 0.0f;  // Ângulo de rotação da flor
 float flowerVel = 0.0f;    // Velocidade angular
 float flowerAcc = 0.0f;    // Aceleração angular
 float flowerVelMax = 5.0f; // Velocidade máxima
+
+void keyboardUpFunc(unsigned char key, int x, int y);
 
 void initFlower(void)
 {
@@ -91,16 +94,33 @@ void flowerFunc(void)
 // Função de callback para teclado
 void keyboardFunc(unsigned char key, int x, int y)
 {
+    bool rotateRight = (key == rotationKey || key == rotationKey - 32);
+    bool rotateLeft = (key == antiRotationKey || key == antiRotationKey - 32);
+
     // Escolhemos uma tecla para rotacionar (considerando as variantes minúscula e maiúscula)
-    if (key == rotationKey || key == rotationKey - 32)
+    // Ao pressionar a tecla, aplica aceleração para iniciar rotação
+    if (rotateRight)
     {
-        // Ao pressionar a tecla, aplica aceleração para iniciar rotação
+        flowerAcc = 0.05f; // valor positivo para sentido horário
+    }
+    else if (rotateLeft)
+    {
         flowerAcc = -0.05f; // valor negativo para sentido anti-horário
     }
-    // Para parar suavemente ao soltar a tecla
-    if (key == 's' || key == 'S')
+    else if (key == 27) // tecla ESC para sair
     {
-        flowerAcc = 0.05f; // valor positivo para desacelerar
+        exit(0);
+    }
+}
+
+void keyboardUpFunc(unsigned char key, int x, int y)
+{
+    bool releasedRotation = (key == rotationKey || key == rotationKey - 32);
+    bool releasedAntiRotation = (key == antiRotationKey || key == antiRotationKey - 32);
+
+    if (releasedRotation || releasedAntiRotation)
+    {
+        flowerAcc = 0.0f;
     }
 }
 
@@ -110,11 +130,18 @@ void timerFunc(int value)
     // Atualizamos a velocidade com base na aceleração
     flowerVel += flowerAcc;
 
-    // Limitamos a velocidade máxima (pra não explodir a flor)
+    // Limitamos a velocidade máxima (pra não quebrar a matrix)
     if (flowerVel > flowerVelMax)
+    {
         flowerVel = flowerVelMax;
+    }
+
+    // Se a velocidade for negativa, limitamos também
     if (flowerVel < -flowerVelMax)
+    {
+
         flowerVel = -flowerVelMax;
+    }
 
     // Aplica "atrito" para desacelerar suavemente
     if (flowerAcc == 0.0f)
@@ -159,7 +186,8 @@ int main(int argc, char **argv)
     initFlower();
 
     glutDisplayFunc(flowerFunc);
-    glutKeyboardFunc(keyboardFunc);  // Adiciona o callback do teclado
-    glutTimerFunc(16, timerFunc, 0); // inicia timer para animação suave
+    glutKeyboardFunc(keyboardFunc);     // Adiciona o callback do teclado
+    glutKeyboardUpFunc(keyboardUpFunc); // Adiciona o callback para tecla solta
+    glutTimerFunc(16, timerFunc, 0);    // inicia timer para animação suave
     glutMainLoop();
 }
