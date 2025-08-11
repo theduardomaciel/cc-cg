@@ -8,10 +8,10 @@
 char rotationKey = 'r';     // Tecla para rotacionar a flor
 char antiRotationKey = 'e'; // Tecla para anti-rotacionar
 
-float flowerAngle = 0.0f;  // Ângulo de rotação da flor
-float flowerVel = 0.0f;    // Velocidade angular
-float flowerAcc = 0.0f;    // Aceleração angular
-float flowerVelMax = 5.0f; // Velocidade máxima
+float flowerAngle = 0.0f;   // Ângulo de rotação da flor
+float flowerVel = 0.0f;     // Velocidade angular
+float flowerAcc = 0.0f;     // Aceleração angular
+float flowerVelMax = 15.0f; // Velocidade máxima
 
 void keyboardUpFunc(unsigned char key, int x, int y);
 
@@ -101,11 +101,11 @@ void keyboardFunc(unsigned char key, int x, int y)
     // Ao pressionar a tecla, aplica aceleração para iniciar rotação
     if (rotateRight)
     {
-        flowerAcc = 0.05f; // valor positivo para sentido horário
+        flowerAcc = -0.05f; // valor positivo para sentido horário
     }
     else if (rotateLeft)
     {
-        flowerAcc = -0.05f; // valor negativo para sentido anti-horário
+        flowerAcc = 0.05f; // valor negativo para sentido anti-horário
     }
     else if (key == 27) // tecla ESC para sair
     {
@@ -174,13 +174,28 @@ void timerFunc(int value)
     glutTimerFunc(16, timerFunc, 0); // chama novamente em ~16ms (60fps)
 }
 
+void centerWindow(int windowWidth, int windowHeight)
+{
+    // Obtemos a largura e altura da tela
+    int screenWidth = glutGet(GLUT_SCREEN_WIDTH);
+    int screenHeight = glutGet(GLUT_SCREEN_HEIGHT);
+    int windowPosX = (screenWidth - windowWidth) / 2;
+    int windowPosY = (screenHeight - windowHeight) / 2;
+    glutInitWindowPosition(windowPosX, windowPosY);
+}
+
 int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
 
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize(500, 500);
-    glutInitWindowPosition(200, 200);
+
+    int windowWidth = 500;
+    int windowHeight = 500;
+
+    glutInitWindowSize(windowWidth, windowHeight);
+    centerWindow(windowWidth, windowHeight); // Centraliza a janela na tela
+
     glutCreateWindow("Flor de Abril");
 
     initFlower();
