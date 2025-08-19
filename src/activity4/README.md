@@ -16,3 +16,5 @@ Para facilitar a visualização, o sol é opaco e os planetas são representados
 
 > [!WARNING]
 > Devido a limitações de framerate do formato GIF (24 fps), a animação pode não ser tão suave quanto a implementação real.
+
+> O commit enviado antes do prazo da atividade foi o seguinte: https://github.com/theduardomaciel/cc-cg/commit/5512306185040e00a3fa12c3c44b37bad94d6867
