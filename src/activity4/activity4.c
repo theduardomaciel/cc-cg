@@ -28,19 +28,38 @@ void display(void)
     glutSolidSphere(1.0, 20, 16); // Desenha o sol como uma esfera sólida
     glPopMatrix();
 
-    // Planeta vermelho (gira no sentido anti-horário, começa à direita, levemente acima)
+    // Planeta vermelho (gira 90º no eixo X, começa à direita, levemente acima)
     glColor3f(1.0, 0.0, 0.0);
     glPushMatrix();
-    glRotatef((GLfloat)year, 0.0, 1.0, 0.0); // Rotação anti-horária
-    glTranslatef(2.0, 0.3, 0.0);             // À direita e levemente acima do sol
+    glRotatef(90.0, 1.0, 0.0, 0.0);          // Rotação padrão de 90º no eixo X
+    glRotatef((GLfloat)year, 0.0, 0.0, 1.0); // Rotação anual no eixo Z (após girar 90º em X)
+    glTranslatef(2.0, 0.0, 0.3);             // À direita e levemente acima do sol (ajustado para novo plano)
     glutWireSphere(0.2, 10, 8);
+
+    // Lua 1: gira ao redor do planeta vermelho no eixo X (após rotação)
+    glPushMatrix();
+    glRotatef((GLfloat)(year * 3), 0.0, 0.0, 1.0); // Rotação mais rápida no eixo X (aqui Z, após rotação de 90º)
+    glTranslatef(0.5, 0.0, 0.0);                   // Distância da lua ao planeta
+    glColor3f(0.7, 0.7, 0.7);                      // Cor cinza
+    glutWireSphere(0.07, 8, 6);
     glPopMatrix();
 
-    // Planeta azul (gira no sentido horário, começa à esquerda, levemente abaixo)
+    // Lua 2: gira ao redor do planeta vermelho no eixo XY
+    glPushMatrix();
+    glRotatef((GLfloat)(year * 2), 0.0, 1.0, 1.0); // Rotação no plano XY (aqui YZ, após rotação de 90º)
+    glTranslatef(0.0, 0.0, 0.7);                   // Distância da lua ao planeta
+    glColor3f(0.5, 0.5, 0.9);                      // Cor azulada
+    glutWireSphere(0.07, 8, 6);
+    glPopMatrix();
+
+    glPopMatrix();
+
+    // Planeta azul (gira 90º no eixo X, começa à esquerda, levemente abaixo)
     glColor3f(0.0, 0.0, 1.0);
     glPushMatrix();
-    glRotatef(-(GLfloat)year, 0.0, 1.0, 0.0); // Rotação horária (inverte o sinal)
-    glTranslatef(-2.0, -0.3, 0.0);            // À esquerda e levemente abaixo do sol
+    glRotatef(90.0, 1.0, 0.0, 0.0);           // Rotação padrão de 90º no eixo X
+    glRotatef(-(GLfloat)year, 0.0, 0.0, 1.0); // Rotação anual no eixo Z (sentido horário)
+    glTranslatef(-2.0, 0.0, -0.3);            // À esquerda e levemente abaixo do sol (ajustado para novo plano)
     glutWireSphere(0.2, 10, 8);
     glPopMatrix();
 
