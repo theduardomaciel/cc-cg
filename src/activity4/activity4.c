@@ -1,13 +1,13 @@
 #include <GL/glut.h>
 #include <GL/glu.h>
 
-static int year = 0, day = 0;
+static int year = 0; // Variável para controlar a rotação anual dos planetas
 
 // Inicializa parâmetros de rendering
 void init(void)
 {
     glClearColor(0.0, 0.0, 0.0, 0.0);
-    glEnable(GL_DEPTH_TEST); // Ativa o teste de profundidade
+    glEnable(GL_DEPTH_TEST); // Ativa a sobreposição de profundidade
 }
 
 // Função callback chamada para fazer o desenho
@@ -19,26 +19,34 @@ void display(void)
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    // Desenha o sol
     glPushMatrix();
     glRotatef(90.0, 1.0, 0.0, 0.0);                // Mantém o sol na vertical (eixo X)
     GLfloat sunColor[] = {1.0f, 1.0f, 0.0f, 1.0f}; // Amarelo opaco (alpha = 1)
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, sunColor);
     glColor3f(1.0f, 1.0f, 0.0f);  // Define a cor do sol como amarelo
-    glutSolidSphere(1.0, 20, 16); /* Desenha o sol */
+    glutSolidSphere(1.0, 20, 16); // Desenha o sol como uma esfera sólida
     glPopMatrix();
 
-    glColor3f(1.0, 1.0, 1.0); // Muda a cor dos planetas para branco
-
+    // Planeta vermelho (gira no sentido anti-horário, começa à direita, levemente acima)
+    glColor3f(1.0, 0.0, 0.0);
     glPushMatrix();
-    glRotatef((GLfloat)year, 0.0, 1.0, 0.0);
-    glTranslatef(2.0, 0.0, 0.0); // Translada a partir do novo sistema de coordenadas resultante da rotação
-    glRotatef((GLfloat)day, 0.0, 1.0, 0.0);
-    glutWireSphere(0.2, 10, 8); /* desenha um planeta */
+    glRotatef((GLfloat)year, 0.0, 1.0, 0.0); // Rotação anti-horária
+    glTranslatef(2.0, 0.3, 0.0);             // À direita e levemente acima do sol
+    glutWireSphere(0.2, 10, 8);
+    glPopMatrix();
+
+    // Planeta azul (gira no sentido horário, começa à esquerda, levemente abaixo)
+    glColor3f(0.0, 0.0, 1.0);
+    glPushMatrix();
+    glRotatef(-(GLfloat)year, 0.0, 1.0, 0.0); // Rotação horária (inverte o sinal)
+    glTranslatef(-2.0, -0.3, 0.0);            // À esquerda e levemente abaixo do sol
+    glutWireSphere(0.2, 10, 8);
     glPopMatrix();
 
     glDisable(GL_BLEND);
 
-    glutSwapBuffers(); // substitui o Flush quando usamos o GLUT_DOUBLE
+    glutSwapBuffers();
 }
 
 void reshape(int w, int h)
@@ -56,14 +64,6 @@ void keyboard(unsigned char key, int x, int y)
 {
     switch (key)
     {
-    case 'd':
-        day = (day + 10) % 360; //% valor do resto
-        glutPostRedisplay();    // Redesenha a cena com novas coordenadas, é executado no glutMainLoop;
-        break;
-    case 'D':
-        day = (day - 10) % 360;
-        glutPostRedisplay();
-        break;
     case 'y':
         year = (year + 5) % 360;
         glutPostRedisplay();
@@ -84,9 +84,10 @@ int main(int argc, char **argv)
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(500, 500);
     glutInitWindowPosition(100, 100);
-    glutCreateWindow("Rotacao de Planetas");
+    glutCreateWindow("Translação dos Planetas");
 
     init();
+
     glutDisplayFunc(display); // Usada para (re)desenhar a cena
     glutReshapeFunc(reshape); // Usar sempre que existe alteração no tamanho da Janela e ajuste da Viewport
     glutKeyboardFunc(keyboard);
