@@ -75,8 +75,8 @@ void reshape(int w, int h)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    gluPerspective(60.0, (GLfloat)w / (GLfloat)h, 1.0, 20.0);
-    gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0); // posicao da camera
+    gluPerspective(60.0, (GLfloat)w / (GLfloat)h, 1.0, 20.0); // Define a perspectiva da câmera
+    gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);   // E aqui a posição da câmera
 }
 
 void keyboard(unsigned char key, int x, int y)
@@ -103,7 +103,7 @@ int main(int argc, char **argv)
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(500, 500);
     glutInitWindowPosition(100, 100);
-    glutCreateWindow("Translação dos Planetas");
+    glutCreateWindow("Translacao dos Planetas");
 
     init();
 
